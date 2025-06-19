@@ -2,7 +2,8 @@ import * as FileSystem from 'expo-file-system';
 import { Asset } from 'expo-asset';
 import { Suspense, use } from 'react';
 import * as SQLite from 'expo-sqlite';
-import React, { useEffect, useState } from 'react';
+import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { View } from 'react-native/Libraries/Components/View/View';
 
 

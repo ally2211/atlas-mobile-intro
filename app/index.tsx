@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 import React from 'react';
 import { Link, router } from "expo-router";
 
-export default function Index() {
+export default function HomePage() {
   const {activities} = useActivities();
   const router = useRouter();
 
