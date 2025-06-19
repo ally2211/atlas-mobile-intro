@@ -13,7 +13,7 @@ async function loadDatabase() {
 
     if (!fileinfo.exists) {
         // If the database file does not exist, copy it from the assets folder
-        const dbAsset = require('@/assets/*' + name)
+        const dbAsset = require('@/assets/' + name)
         const dbUri = Asset.fromModule(dbAsset).uri;
         await FileSystem.makeDirectoryAsync('${FileSystem.documentDirectory}SQLite}',
             { intermediates: true }
