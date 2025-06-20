@@ -1,5 +1,5 @@
 import { View, Alert, Text, Pressable, StyleSheet } from 'react-native';
-import { useActivities }  from './hooks/useActivities';
+import { useActivities }  from '../hooks/useActivities';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { Link, router } from "expo-router";
