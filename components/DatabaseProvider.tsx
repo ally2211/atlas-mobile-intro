@@ -6,14 +6,30 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 
+// Function to initialize database schema
+async function initializeDatabase(db: any) {
+    try {
+        // Create activities table if it doesn't exist
+        await db.runAsync(`
+            CREATE TABLE IF NOT EXISTS activities (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                steps INTEGER NOT NULL,
+                date INTEGER DEFAULT (strftime('%s', 'now'))
+            )
+        `);
+        console.log('Database schema initialized successfully');
+    } catch (error) {
+        console.error('Error initializing database schema:', error);
+    }
+}
 
 async function loadDatabase() {
     const name = 'activities.db';
     const dbPath = `${FileSystem.documentDirectory}SQLite/${name}`;
     const fileinfo = await FileSystem.getInfoAsync(dbPath);
     if (!fileinfo.exists) {
-        // If the database file does not exist, copy it from the assets folder
-        const dbAsset = require('@/assets/' + name)
+        console.log('Database file not found — copying from assets...');      // If the database file does not exist, copy it from the assets folder
+        const dbAsset = require('../assets/activities.db'); // + name)
         const dbUri = Asset.fromModule(dbAsset).uri;
         await FileSystem.makeDirectoryAsync(`${FileSystem.documentDirectory}SQLite`,
             { intermediates: true }
@@ -25,6 +41,7 @@ async function loadDatabase() {
         console.log('Database copied successfully');
     
     }
+    console.log('Opening database at', dbPath);
 }
 
 function useDB(){
@@ -45,9 +62,31 @@ function DatabaseProvider({ children }: { children: React.ReactNode }) {
 
     return (
         <Suspense fallback={<View><Text>Loading</Text></View>}>
-        <SQLite.SQLiteProvider useSuspense databaseName='activities.db'> {children} </SQLite.SQLiteProvider>
+        <SQLite.SQLiteProvider useSuspense databaseName='activities.db'>
+            <DatabaseInitializer>
+                {children}
+            </DatabaseInitializer>
+        </SQLite.SQLiteProvider>
         </Suspense>
     );
+}
+
+// Component to initialize database schema
+function DatabaseInitializer({ children }: { children: React.ReactNode }) {
+    const db = SQLite.useSQLiteContext();
+    const [initialized, setInitialized] = useState(false);
+
+    useEffect(() => {
+        if (db && !initialized) {
+            initializeDatabase(db).then(() => setInitialized(true));
+        }
+    }, [db, initialized]);
+
+    if (!initialized) {
+        return <View><Text>Initializing database...</Text></View>;
+    }
+
+    return <>{children}</>;
 }
 
 export default DatabaseProvider;
