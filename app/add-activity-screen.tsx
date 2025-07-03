@@ -44,11 +44,11 @@ export default function AddActivityScreen()  {
       {/* <Button title="Save Activity" onPress={ handleSubmit } /> */}
 
       <Pressable onPress={handleSubmit} style={styles.button}>
-        <Text style={styles.buttonText}>Save Activity</Text>
+        <Text style={styles.buttonText}>Add Activity</Text>
       </Pressable>
 
-      <Link href="/" replace style={styles.button}>
-        <Text style={styles.buttonText}>Back to Home Screen</Text>
+      <Link href="/" replace style={styles.redbutton}>
+        <Text style={styles.buttonText}>Go Back</Text>
       </Link>
 
     </View>
@@ -64,13 +64,24 @@ const styles = StyleSheet.create({
     borderRadius: 5
   },
   button: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#1ED2AF',
     paddingHorizontal: 16,
     paddingVertical: 10,
     borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  redbutton: {
+    backgroundColor: '#D00414',
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonText: {
     color: 'white',
     fontWeight: 'bold',
+    textAlign: 'center',
   },
 });

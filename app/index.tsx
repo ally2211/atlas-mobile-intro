@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import React from 'react';
 import { Link, router } from "expo-router";
 import { FlatList } from 'react-native';
+import { FlashList } from '@shopify/flash-list';
 
 
 export default function HomePage() {
@@ -17,15 +18,16 @@ console.log('Activities:', activities);
       {activities.length === 0 ? (
         <Text>No activities found.</Text>
       ) : (  
-      <FlatList
+      <FlashList
         data={activities}
-        keyExtractor={item => item.id.toString()}
         renderItem={({ item }) => (
           <View style={styles.activityItem}>
+            <Text style={styles.dateText}>{new Date(item.date * 1000).toLocaleString()}</Text>
             <Text style={styles.stepsText}>Steps: {item.steps}</Text>
-            <Text style={styles.dateText}>Date: {new Date(item.date * 1000).toLocaleDateString()}</Text>
           </View>
         )}
+        estimatedItemSize={100}
+        keyExtractor={item => item.id.toString()}
         style={styles.list}
       />
       )}
@@ -69,7 +71,7 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   button: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#1ED2AF',
     paddingHorizontal: 16,
     paddingVertical: 10,
     borderRadius: 8,
