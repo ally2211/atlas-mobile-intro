@@ -8,9 +8,53 @@ import { FlashList } from '@shopify/flash-list';
 
 
 export default function HomePage() {
-  const {activities} = useActivities();
+  const {activities, deleteAllActivities, deleteActivity} = useActivities();
   const router = useRouter();
 console.log('Activities:', activities);
+
+  // Delete handler for individual activities
+  const handleDelete = (id: number) => {
+    Alert.alert('Delete', 'Are you sure you want to delete this activity?', [
+      { text: 'Cancel', style: 'cancel' },
+      { 
+        text: 'Delete', 
+        style: 'destructive', 
+        onPress: async () => {
+          try {
+            await deleteActivity(id);
+            Alert.alert('Success', 'Activity deleted successfully!');
+          } catch (error) {
+            console.error("❌ Error deleting activity:", error);
+            Alert.alert('Error', 'Failed to delete activity!');
+          }
+        }
+      },
+    ]);
+  };
+
+  const handleDeleteAll = async () => {
+    Alert.alert(
+      'Delete All Activities',
+      'Are you sure you want to delete all activities? This action cannot be undone.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { 
+          text: 'Delete All', 
+          style: 'destructive', 
+          onPress: async () => {
+            try {
+              await deleteAllActivities();
+              Alert.alert('Success', 'All activities deleted successfully!');
+            } catch (error) {
+              console.error("❌ Error deleting activities:", error);
+              Alert.alert('Error', 'Failed to delete activities!');
+            }
+          }
+        },
+      ]
+    );
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Activities:</Text>
@@ -22,8 +66,16 @@ console.log('Activities:', activities);
         data={activities}
         renderItem={({ item }) => (
           <View style={styles.activityItem}>
-            <Text style={styles.dateText}>{new Date(item.date * 1000).toLocaleString()}</Text>
-            <Text style={styles.stepsText}>Steps: {item.steps}</Text>
+            <View style={styles.itemContent}>
+              <Text style={styles.dateText}>{new Date(item.date * 1000).toLocaleString()}</Text>
+              <Text style={styles.stepsText}>Steps: {item.steps}</Text>
+            </View>
+            <Pressable
+              style={styles.deleteButton}
+              onPress={() => handleDelete(item.id)}
+            >
+              <Text style={styles.deleteButtonText}>Delete</Text>
+            </Pressable>
           </View>
         )}
         estimatedItemSize={100}
@@ -35,6 +87,10 @@ console.log('Activities:', activities);
           <Link href="/add-activity-screen" replace style={styles.button}>
             <Text style={styles.buttonText}>Go to Add Activity</Text>
           </Link>
+
+          <Pressable onPress={handleDeleteAll} style={styles.deleteAllButton}>
+            <Text style={styles.buttonText}>Delete All Activities</Text>
+          </Pressable>
         </View>
   );
 }
@@ -54,12 +110,18 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   activityItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: '#f0f0f0',
     padding: 15,
     marginVertical: 5,
     borderRadius: 8,
     borderLeftWidth: 4,
     borderLeftColor: '#007AFF',
+    justifyContent: 'space-between',
+  },
+  itemContent: {
+    flex: 1,
   },
   stepsText: {
     fontSize: 18,
@@ -70,16 +132,38 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
   },
+  deleteButton: {
+    backgroundColor: '#FF3B30',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 6,
+    marginLeft: 10,
+  },
+  deleteButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
   button: {
     backgroundColor: '#1ED2AF',
     paddingHorizontal: 16,
     paddingVertical: 10,
     borderRadius: 8,
     marginTop: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonText: {
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  deleteAllButton: {
+    backgroundColor: '#FF3B30',
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 8,
+    marginTop: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

@@ -35,6 +35,30 @@ export function useActivities() {
     );
     }
 
+    async function deleteAllActivities() {
+        console.log("Deleting all activities from database");
+        try {
+            await db.runAsync("DELETE FROM activities");
+            console.log("All activities deleted successfully");
+            await loadActivities(); // Reload the activities list
+        } catch (error) {
+            console.error("❌ Error deleting activities:", error);
+            throw error;
+        }
+    }
+
+    async function deleteActivity(id: number) {
+        console.log("Deleting activity with id:", id);
+        try {
+            await db.runAsync("DELETE FROM activities WHERE id = ?", [id]);
+            console.log("Activity deleted successfully");
+            await loadActivities(); // Reload the activities list
+        } catch (error) {
+            console.error("❌ Error deleting activity:", error);
+            throw error;
+        }
+    }
+
     useEffect(() => {
         loadActivities();
     }, []);
@@ -43,6 +67,8 @@ export function useActivities() {
         getActivities, 
         activities,
         loadActivities,
-        insertActivity
+        insertActivity,
+        deleteAllActivities,
+        deleteActivity
     };
 }

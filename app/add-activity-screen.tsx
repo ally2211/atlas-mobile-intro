@@ -1,4 +1,3 @@
-
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { useActivities } from '@/hooks/useActivities';
@@ -70,6 +69,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 10,
   },
   redbutton: {
     backgroundColor: '#D00414',
@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 10,
   },
   buttonText: {
     color: 'white',
