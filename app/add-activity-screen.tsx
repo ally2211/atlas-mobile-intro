@@ -1,15 +1,15 @@
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { Link, useRouter } from 'expo-router';
-import { useActivities } from '@/hooks/useActivities';
+import { useActivitiesContext } from '@/components/ActivitiesProvider';
 import { useState, useEffect } from 'react';
 import { Pressable } from 'react-native';
 
 
 export default function AddActivityScreen()  {
-    const [steps, setSteps] = useState('');
-    const [date, setDate] = useState('');
+    const [steps, setSteps] = useState<number>();
+    const [date, setDate] = useState(new Date().toISOString());
     const router = useRouter();
-    const { insertActivity, loadActivities } = useActivities();
+    const { insertActivity, loadActivities } = useActivitiesContext();
 
   const handleSubmit = async () => {
     if (!steps) {
@@ -19,7 +19,7 @@ export default function AddActivityScreen()  {
     
     try {
     console.log("Submitting new activity:", steps);
-    await insertActivity(parseInt(steps, 10));
+    await insertActivity(steps);
     console.log("Insert succeeded, now loading activities");
     await loadActivities();
     router.replace('/');
@@ -34,10 +34,10 @@ export default function AddActivityScreen()  {
       <Text style={styles.label}>Steps</Text>
       <TextInput
         style={styles.input}
-        value={steps}
-        onChangeText={setSteps}
-        placeholder="Enter number of steps"
-        keyboardType="numeric"
+        value={steps?.toString() || ''}
+        onChangeText={(value) => setSteps(parseInt(value) || undefined)}
+        placeholder="Enter steps"
+        keyboardType="number-pad"
       />
 
       {/* <Button title="Save Activity" onPress={ handleSubmit } /> */}

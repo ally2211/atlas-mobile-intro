@@ -1,14 +1,14 @@
 import { View, Alert, Text, Pressable, StyleSheet } from 'react-native';
-import { useActivities }  from '../hooks/useActivities';
+import { useActivitiesContext }  from '../components/ActivitiesProvider';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { Link, router } from "expo-router";
 import { FlatList } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
-
+import SwipeableActivity from '@/components/SwipeableActivity';
 
 export default function HomePage() {
-  const {activities, deleteAllActivities, deleteActivity} = useActivities();
+  const {activities, deleteAllActivities, deleteActivity} = useActivitiesContext();
   const router = useRouter();
 console.log('Activities:', activities);
 
@@ -55,6 +55,13 @@ console.log('Activities:', activities);
     );
   };
 
+  const renderActivityItem = ({ item }: { item: any }) => (
+    <SwipeableActivity 
+      activity={item} 
+      onDelete={handleDelete} 
+    />
+  );
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Activities:</Text>
@@ -62,26 +69,14 @@ console.log('Activities:', activities);
       {activities.length === 0 ? (
         <Text>No activities found.</Text>
       ) : (  
-      <FlashList
-        data={activities}
-        renderItem={({ item }) => (
-          <View style={styles.activityItem}>
-            <View style={styles.itemContent}>
-              <Text style={styles.dateText}>{new Date(item.date * 1000).toLocaleString()}</Text>
-              <Text style={styles.stepsText}>Steps: {item.steps}</Text>
-            </View>
-            <Pressable
-              style={styles.deleteButton}
-              onPress={() => handleDelete(item.id)}
-            >
-              <Text style={styles.deleteButtonText}>Delete</Text>
-            </Pressable>
-          </View>
-        )}
-        estimatedItemSize={100}
-        keyExtractor={item => item.id.toString()}
-        style={styles.list}
-      />
+        <View style={styles.list}>
+          <FlashList
+            data={activities}
+            renderItem={renderActivityItem}
+            estimatedItemSize={100}
+            keyExtractor={item => item.id.toString()}
+          />
+        </View>
       )}
 
           <Link href="/add-activity-screen" replace style={styles.button}>
