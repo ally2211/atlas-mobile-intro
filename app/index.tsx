@@ -10,7 +10,7 @@ import SwipeableActivity from '@/components/SwipeableActivity';
 export default function HomePage() {
   const {activities, deleteAllActivities, deleteActivity} = useActivitiesContext();
   const router = useRouter();
-console.log('Activities:', activities);
+// console.log('Activities:', activities);
 
   // Delete handler for individual activities
   const handleDelete = (id: number) => {

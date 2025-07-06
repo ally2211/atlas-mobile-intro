@@ -24,7 +24,7 @@ export function useActivities() {
         console.log("Loading activities from database");
             const data = await getActivities();
             setActivities(data);
-            console.log("Activities loaded:", data);
+            // console.log("Activities loaded:", data);
         }
 
     function insertActivity(steps: number) {
