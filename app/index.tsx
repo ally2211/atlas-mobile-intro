@@ -3,7 +3,7 @@ import { useActivitiesContext }  from '../components/ActivitiesProvider';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { Link, router } from "expo-router";
-import { FlatList } from 'react-native';
+// import { FlatList } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import SwipeableActivity from '@/components/SwipeableActivity';
 
@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    backgroundColor: '#FEF9E6',
   },
   title: {
     fontSize: 24,
@@ -111,8 +112,8 @@ const styles = StyleSheet.create({
     padding: 15,
     marginVertical: 5,
     borderRadius: 8,
-    borderLeftWidth: 4,
-    borderLeftColor: '#007AFF',
+    // borderLeftWidth: 4,
+    // borderLeftColor: '#007AFF',
     justifyContent: 'space-between',
   },
   itemContent: {

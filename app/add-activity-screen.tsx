@@ -31,7 +31,7 @@ export default function AddActivityScreen()  {
 
    return (
     <View style={styles.container}>
-      <Text style={styles.label}>Steps</Text>
+      <Text style={styles.label}>Add Activity</Text>
       <TextInput
         style={styles.input}
         value={steps?.toString() || ''}
@@ -54,13 +54,31 @@ export default function AddActivityScreen()  {
   );
 }
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
-  label: { marginTop: 20, fontSize: 16 },
+  container: { 
+    flex: 1, 
+    padding: 20,
+    backgroundColor: '#FEF9E6',
+  },
+  label: { 
+    marginTop: 20, 
+    // fontSize: 10,
+    fontFamily: 'Inter',
+    fontWeight: '700',
+    textAlign: 'center',
+    // lineHeight: 10, // 100% of font-size (10px)
+    // letterSpacing: 0,
+    // width: 61,
+    // height: 12,
+    opacity: 1,
+    color: 'black',
+    alignSelf: 'center',
+  },
   input: {
     borderWidth: 1,
     borderColor: '#ccc',
     padding: 10,
-    borderRadius: 5
+    borderRadius: 5,
+    backgroundColor: 'white',
   },
   button: {
     backgroundColor: '#1ED2AF',

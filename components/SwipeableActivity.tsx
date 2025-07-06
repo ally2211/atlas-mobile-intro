@@ -29,7 +29,7 @@ export default function SwipeableActivity({ activity, onDelete }: SwipeableActiv
     return (
       <View style={styles.swipeableContainer}>
         <Pressable
-          style={styles.swipeableDeleteButton}
+          style={styles.swipeableDeleteArea}
           onPress={handleDelete}
         >
           <Text style={styles.swipeableDeleteText}>Delete</Text>
@@ -42,7 +42,7 @@ export default function SwipeableActivity({ activity, onDelete }: SwipeableActiv
     return (
       <View style={styles.swipeableContainer}>
         <Pressable
-          style={styles.swipeableDeleteButton}
+          style={styles.swipeableDeleteArea}
           onPress={handleDelete}
         >
           <Text style={styles.swipeableDeleteText}>Delete</Text>
@@ -77,17 +77,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f0f0',
     padding: 15,
     marginVertical: 5,
-    borderRadius: 8,
-    borderLeftWidth: 4,
-    borderLeftColor: '#007AFF',
-    justifyContent: 'space-between',
+    borderRadius: 0,
+    borderWidth: 1,
+    width: '100%',
+    // justifyContent: 'space-between',
   },
   itemContent: {
     flex: 1,
   },
   stepsText: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: 'normal',
     marginBottom: 5,
   },
   dateText: {
@@ -97,19 +97,19 @@ const styles = StyleSheet.create({
   swipeableContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-end',
-    backgroundColor: '#f8f8f8',
-    width: 90,
+    justifyContent: 'center',
+    backgroundColor: 'red',
+    width: 60,
+    padding: 15,
+    marginVertical: 5,
   },
-  swipeableDeleteButton: {
-    backgroundColor: '#FF3B30',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderRadius: 8,
-    marginRight: 10,
+  swipeableDeleteArea: {
+    backgroundColor: 'red',
     alignItems: 'center',
     justifyContent: 'center',
-    minWidth: 60,
+    width: 60,
+    height: 27,
+    opacity: 1,
   },
   swipeableDeleteText: {
     color: 'white',
